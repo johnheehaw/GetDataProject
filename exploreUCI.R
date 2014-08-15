@@ -1,6 +1,12 @@
-setwd("d:/data/")
+# setwd("d:/data/")
+setwd("~/github_repo/GetDataProject")
+# work
+useDir <- "/Users/johnhansen/Google Drive/School/coursera/SigTrack3 - Getting and Cleaning Data/wd/UCI HAR Dataset/" # home
+# useDir <- "D:/data/" # WORK
 
-subject_test <- read.table("D:/data/UCI HAR Dataset/test/subject_test.txt", quote="\"")
+# build test set
+
+subject_test <- read.table(paste(useDir,"test/subject_test.txt",sep=""), quote="\"")  # HOME
 # View(subject_test)
 names(subject_test) <- "subject"
 
@@ -9,12 +15,12 @@ names(subject_test) <- "subject"
 # 2   4   9  10  12  13  18  20  24 
 # 302 317 288 294 320 327 364 354 381 
 
-X_test <- read.table("D:/data/UCI HAR Dataset/test/X_test.txt", quote="\"")
-features <- read.table("D:/data/UCI HAR Dataset/features.txt", quote="\"")
+X_test <- read.table(paste(useDir,"test/X_test.txt",sep=""), quote="\"") # WORK
+features <- read.table(paste(useDir,"features.txt",sep=""), quote="\"")
 names(X_test) <- features[,2]
 # View(X_test)
 
-y_test <- read.table("D:/data/UCI HAR Dataset/test/y_test.txt", quote="\"")
+y_test <- read.table(paste(useDir,"test/y_test.txt",sep=""), quote="\"")
 names(y_test) <- "activity"
 # View(y_test)
 
@@ -25,8 +31,10 @@ names(y_test) <- "activity"
 
 test <- cbind(subject_test,X_test,y_test)
 
-subject_train <- read.table("D:/data/UCI HAR Dataset/train/subject_train.txt", quote="\"")
-View(subject_train)
+# build train set
+
+subject_train <- read.table(paste(useDir,"train/subject_train.txt",sep=""), quote="\"")
+# View(subject_train)
 names(subject_train) <- "subject"
 
 # table(subject_train)
@@ -34,32 +42,31 @@ names(subject_train) <- "subject"
 # 1   3   5   6   7   8  11  14  15  16  17  19  21  22  23  25  26  27  28  29  30 
 # 347 341 302 325 308 281 316 323 328 366 368 360 408 321 372 409 392 376 382 344 383 
 
-X_train <- read.table("D:/data/UCI HAR Dataset/train/X_train.txt", quote="\"")
-# view(X_train)
-features <- read.table("D:/data/UCI HAR Dataset/features.txt", quote="\"")
+X_train <- read.table(paste(useDir,"train/X_train.txt",sep=""), quote="\"")
+# View(X_train)
+features <- read.table(paste(useDir,"features.txt",sep=""), quote="\"")
 names(X_train) <- features[,2]
-View(X_train)
+# View(X_train)
 
-y_train <- read.table("D:/data/UCI HAR Dataset/train/y_train.txt", quote="\"")
+y_train <- read.table(paste(useDir,"train/y_train.txt",sep=""), quote="\"")
 names(y_train) <- "activity"
-View(y_train)
+# View(y_train)
 # table(y_train)
 # y_train
 # 1    2    3    4    5    6 
 # 1226 1073  986 1286 1374 1407
 
 train <- cbind(subject_train,X_train,y_train)
-# ad(train[c(1,2,563)])
 
 # concatenate two datasets
-table(train$subject)
 table(test$subject)
+table(train$subject)
 
-combined <- rbind(train,test)
+combined <- rbind(test,train)
 table(combined$subject)
 # works!
 
 # keep only mean and std measurements
-head(combined[,c(1,563)])
+# i.e., subject, vars that have string mean and std, and activity
 
-names(combined)==
+smaller <- combined[,c(1,grep("mean" ,names(combined)),grep("std" ,names(combined)),563)]
