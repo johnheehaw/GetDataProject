@@ -67,6 +67,6 @@ table(combined$subject)
 # works!
 
 # keep only mean and std measurements
-# i.e., subject, vars that have string mean and std, and activity
+# i.e., subject (#1), vars that have string mean and std (grep these), and activity (#563)
 
 smaller <- combined[,c(1,grep("mean" ,names(combined)),grep("std" ,names(combined)),563)]
