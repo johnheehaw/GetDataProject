@@ -1,8 +1,8 @@
-# setwd("d:/data/")
-setwd("~/github_repo/GetDataProject")
+setwd("d:/data/")
+# setwd("~/github_repo/GetDataProject")
 # work
-useDir <- "/Users/johnhansen/Google Drive/School/coursera/SigTrack3 - Getting and Cleaning Data/wd/UCI HAR Dataset/" # home
-# useDir <- "D:/data/" # WORK
+# useDir <- "/Users/johnhansen/Google Drive/School/coursera/SigTrack3 - Getting and Cleaning Data/wd/UCI HAR Dataset/" # home
+useDir <- "D:/data/UCI HAR Dataset/" # WORK
 
 # build test set
 
@@ -21,7 +21,7 @@ names(X_test) <- features[,2]
 # View(X_test)
 
 y_test <- read.table(paste(useDir,"test/y_test.txt",sep=""), quote="\"")
-names(y_test) <- "activity"
+names(y_test) <- "activityID"
 # View(y_test)
 
 # table(y_test)
@@ -49,7 +49,7 @@ names(X_train) <- features[,2]
 # View(X_train)
 
 y_train <- read.table(paste(useDir,"train/y_train.txt",sep=""), quote="\"")
-names(y_train) <- "activity"
+names(y_train) <- "activityID"
 # View(y_train)
 # table(y_train)
 # y_train
@@ -59,8 +59,8 @@ names(y_train) <- "activity"
 train <- cbind(subject_train,X_train,y_train)
 
 # concatenate two datasets
-table(test$subject)
-table(train$subject)
+# table(test$subject)
+# table(train$subject)
 
 combined <- rbind(test,train)
 table(combined$subject)
@@ -70,3 +70,29 @@ table(combined$subject)
 # i.e., subject (#1), vars that have string mean and std (grep these), and activity (#563)
 
 smaller <- combined[,c(1,grep("mean" ,names(combined)),grep("std" ,names(combined)),563)]
+
+# Creates a second, independent tidy data set with the average of each variable
+# for each activity and each subject.
+
+# sanity check
+# write.table(smaller,"smaller.txt",col.names=TRUE,row.names=FALSE)
+
+# merge in activity from activity labels
+actLabels <- read.table(paste(useDir,"activity_labels.txt",sep=""), quote="\"")
+names(actLabels) <- c("activityID","activity")
+# View(actLabels)
+smallLabeled <- merge(smaller,actLabels,by.x="activityID",by.y="activityID")
+head(smallLabeled)
+# write.table(smallLabeled,"smallLabeled.txt",col.names=TRUE,row.names=FALSE)
+
+# get rid of activityID column
+drops <- c("activityID")
+tidySet <- smallLabeled[,!(names(smallLabeled) %in% drops)]
+# head(tidySet)
+
+summaryTidy <- aggregate(tidySet,by=list(subject = tidySet$subject,activity = tidySet$activity),mean)
+head(summaryTidy)
+finalSet <- summaryTidy[,2:82]
+head(finalSet)
+# write.table(finalSet,"finalSet.txt",col.names=TRUE,row.names=FALSE)
+# looks good!
