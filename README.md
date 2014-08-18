@@ -14,7 +14,7 @@ Part/description
 
 Codebook:
 180 observations of 81 variables. 
-One row for each activity/subject combination (i.e., 30 subjects with mean measurements for 6 activities each)
+One row for each activity/subject combination (i.e., 30 subjects with mean measurements for 6 activities each). Thus, variables 3:81 in the vector of variables in this dataframe are the means for the same variable from the source datasets.
 
  [1] "activity"                       
  [2] "subject"                        
