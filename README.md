@@ -2,14 +2,22 @@ GetDataProject
 ==============
 How it works:
 
-Part/description
-0. (uncomment/comment lines at the top depending on whether running at home or at work!)
+Part/description:
+
+0. (uncomment/comment lines at the top depending on whether running at home or at work!).
+
 1. Build test set. Read table of subject IDs, all readings and then activity. cbind it all together.
+
 2. Build train set in identical manner to test set.
+
 3. rbind test and train.
+
 4. use grep to make a smaller set that (other than subject and activityID) has either "mean" or "std" in name
+
 5. Merge in activity labels to make tidySet. Drop column "ActivityID".
+
 6. Use aggregate function on tidySet to make summary dataset, drop extra vars to make finalSet.
+
 7. Export it per specifications (with write.table() using row.name=FALSE) by uncommenting.
 
 Codebook:
